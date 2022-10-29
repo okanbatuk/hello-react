@@ -1,44 +1,43 @@
 "use strict";
 
 var root = ReactDOM.createRoot(document.getElementById("root"));
+
+// import React from "react";
+// const Navi = require("./Navi");
+
 var app = {
   title: "React App",
   desc: "Lorem, ipsum dolor.",
   items: []
 };
-var onFormSubmit = function onFormSubmit(event) {
-  event.preventDefault();
-  var item = event.target.elements.txtItem.value;
-  if (item) {
-    app.items.push(item);
-    event.target.elements.txtItem.value = "";
-  }
-  console.log("This ".concat(item, " has been added"));
-  // event.stopImmediatePropagation();
-  renderApp();
+var Navi = function Navi(_ref) {
+  var msg = _ref.msg,
+    age = _ref.age;
+  return /*#__PURE__*/React.createElement("div", {
+    className: "message"
+  }, msg, " ", age);
 };
-var clearItems = function clearItems() {
-  app.items = [];
-  renderApp();
-};
-var renderApp = function renderApp() {
-  //? let listItems = app.items.map((item) => <li key={item}>{item}</li>);
 
-  //* React
-  var template = /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h1", null, app.title), /*#__PURE__*/React.createElement("div", null, app.desc), /*#__PURE__*/React.createElement("p", null, app.items.length), /*#__PURE__*/React.createElement("ul", null, app.items.map(function (item, index) {
-    return /*#__PURE__*/React.createElement("li", {
-      key: index
-    }, item);
-  })), /*#__PURE__*/React.createElement("form", {
-    onSubmit: onFormSubmit
-  }, /*#__PURE__*/React.createElement("input", {
-    type: "text",
-    name: "txtItem"
-  }), /*#__PURE__*/React.createElement("button", {
-    type: "submit"
-  }, "Add Item")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("button", {
-    onClick: clearItems
-  }, "Clear Items"))));
-  root.render(template);
+// ? Those PropTypes are validation of props passed
+// https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.8.1/prop-types.js
+var PropTypes = {
+  string: function string(props, propName, componentName) {
+    if (typeof props[propName] !== "string") {
+      return new Error("Invalid propName");
+    }
+  },
+  number: function number(props, propName, componentName) {
+    if (typeof props[propName] !== "number") {
+      return new Error("Please provide a number");
+    }
+  }
 };
-renderApp();
+Navi.propTypes = {
+  msg: PropTypes.string,
+  age: PropTypes.number
+};
+var template = /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h2", null, "Hello, World"), /*#__PURE__*/React.createElement(Navi, {
+  msg: "Hello Okan",
+  age: 15
+}));
+root.render(template);

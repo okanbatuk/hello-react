@@ -1,60 +1,45 @@
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
+// import React from "react";
+// const Navi = require("./Navi");
+
 const app = {
   title: "React App",
   desc: "Lorem, ipsum dolor.",
   items: [],
 };
 
-let onFormSubmit = (event) => {
-  event.preventDefault();
-  let item = event.target.elements.txtItem.value;
+const Navi = ({ msg, age }) => (
+  <div className="message">
+    {msg} {age}
+  </div>
+);
 
-  if (item) {
-    app.items.push(item);
-    event.target.elements.txtItem.value = "";
-  }
 
-  console.log(`This ${item} has been added`);
-  // event.stopImmediatePropagation();
-  renderApp();
+// ? Those PropTypes are validation of props passed
+// https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.8.1/prop-types.js
+const PropTypes = {
+  string(props, propName, componentName) {
+    if (typeof props[propName] !== "string") {
+      return new Error("Invalid propName");
+    }
+  },
+  number(props, propName, componentName) {
+    if (typeof props[propName] !== "number") {
+      return new Error("Please provide a number");
+    }
+  },
+};
+Navi.propTypes = {
+  msg: PropTypes.string,
+  age: PropTypes.number,
 };
 
-let clearItems = () => {
-  app.items = [];
-  renderApp();
-};
+let template = (
+  <div>
+    <h2>Hello, World</h2>
 
-const renderApp = () => {
-  //? let listItems = app.items.map((item) => <li key={item}>{item}</li>);
-
-  //* React
-  let template = (
-    <div>
-      <h1>{app.title}</h1>
-      <div>{app.desc}</div>
-      <p>{app.items.length}</p>
-
-      {
-        <ul>
-          {app.items.map((item, index) => {
-            return <li key={index}>{item}</li>;
-          })}
-        </ul>
-      }
-
-      <form onSubmit={onFormSubmit}>
-        <input type="text" name="txtItem" />
-        <button type="submit">Add Item</button>
-      </form>
-      <div>
-        <p>
-          <button onClick={clearItems}>Clear Items</button>
-        </p>
-      </div>
-    </div>
-  );
-  root.render(template);
-};
-
-renderApp();
+    <Navi msg={"Hello Okan"} age={15} />
+  </div>
+);
+root.render(template);
